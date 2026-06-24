@@ -30,7 +30,7 @@ public final class ComponentNode: Identifiable {
     public var instance: RawComponent
 
     public var children: [ComponentNode]
-    package var uiState: (any ComponentUIState)?
+    public var uiState: (any ComponentUIState)?
     public var accessibility: A2UIAccessibility?
 
     package init(

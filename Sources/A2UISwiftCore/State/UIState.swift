@@ -29,7 +29,7 @@ import Observation
 // MARK: - ComponentUIState Protocol & Concrete Types
 // Shared across protocol versions — pure SwiftUI state, no protocol-specific fields.
 
-package protocol ComponentUIState: AnyObject {}
+public protocol ComponentUIState: AnyObject {}
 
 @Observable
 package final class TabsUIState: ComponentUIState {
