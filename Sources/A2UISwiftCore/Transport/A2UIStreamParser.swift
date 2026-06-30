@@ -169,23 +169,17 @@ public final class A2UIStreamParser: Sendable {
             // 3. Find the first potential JSON start (` ``` ` or `{`) within the safe text.
             let markdownRange = safeText.range(of: "```")
             let braceRange    = safeText.range(of: "{")
-            let firstPotentialStart: String.Index?
+            let cut: String.Index
             switch (markdownRange, braceRange) {
             case let (.some(md), .some(br)):
-                firstPotentialStart = md.lowerBound < br.lowerBound ? md.lowerBound : br.lowerBound
+                cut = md.lowerBound < br.lowerBound ? md.lowerBound : br.lowerBound
             case let (.some(md), nil):
-                firstPotentialStart = md.lowerBound
+                cut = md.lowerBound
             case let (nil, .some(br)):
-                firstPotentialStart = br.lowerBound
+                cut = br.lowerBound
             case (nil, nil):
                 // No potential JSON start in the safe text. Emit it; any held-back partial
                 // open-tag tail stays in the buffer for the next chunk.
-                emitText(safeText)
-                buffer = String(buffer.dropFirst(safeText.count))
-                return false
-            }
-
-            guard let cut = firstPotentialStart else {
                 emitText(safeText)
                 buffer = String(buffer.dropFirst(safeText.count))
                 return false
